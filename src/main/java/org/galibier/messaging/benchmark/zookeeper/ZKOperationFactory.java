@@ -20,6 +20,8 @@ public class ZKOperationFactory extends OperationFactory {
                 return new ZKRead(host, "/bench");
             case Write:
                 return new ZKWrite(host, "/bench");
+            case Dual:
+                return new ZKDual(host, "/bench");
             default:
                 throw new IllegalStateException("Non supported operation type:" + type);
         }
