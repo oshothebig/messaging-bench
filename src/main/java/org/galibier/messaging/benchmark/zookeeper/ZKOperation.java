@@ -25,6 +25,7 @@ public abstract class ZKOperation implements Operation {
         } catch (KeeperException.NodeExistsException e) {
             //  ignore
         } catch (Exception e) {
+            e.printStackTrace(System.err);
             System.out.println("Initialization failed");
             System.exit(1);
         }
