@@ -35,6 +35,8 @@ public class CmdParam {
         switch (targetType) {
             case Zookeeper:
                 return "localhost:2181";
+            case ZKQueue:
+                return "localhost:2181";
             case RabbitMQ:
                 return "localhost:5672";
             case NOP:

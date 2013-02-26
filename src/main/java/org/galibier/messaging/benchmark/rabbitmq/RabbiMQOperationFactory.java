@@ -5,12 +5,8 @@ import org.galibier.messaging.benchmark.OperationFactory;
 import org.galibier.messaging.benchmark.OperationType;
 
 public class RabbiMQOperationFactory extends OperationFactory {
-    private final OperationType type;
-    private final String host;
-
     public RabbiMQOperationFactory(OperationType type, String host) {
-        this.type = type;
-        this.host = host;
+        super(type, host);
     }
 
     @Override

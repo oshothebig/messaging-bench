@@ -5,8 +5,8 @@ import org.galibier.messaging.benchmark.OperationFactory;
 import org.galibier.messaging.benchmark.OperationType;
 import org.galibier.messaging.benchmark.nop.NoOperation;
 
-public class ZKOperationFactory extends OperationFactory {
-    public ZKOperationFactory(OperationType type, String host) {
+public class ZKQueueOperationFactory extends OperationFactory {
+    public ZKQueueOperationFactory(OperationType type, String host) {
         super(type, host);
     }
 
@@ -14,9 +14,9 @@ public class ZKOperationFactory extends OperationFactory {
     public Operation create() {
         switch (type) {
             case Read:
-                return new ZKRead(host, "/bench");
+                return new ZKQueueRead(host, "/bench");
             case Write:
-                return new ZKWrite(host, "/bench");
+                return new ZKQueueWrite(host, "/bench");
             default:
                 return new NoOperation();
         }
