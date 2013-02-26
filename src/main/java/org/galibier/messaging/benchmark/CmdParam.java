@@ -10,8 +10,8 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
 public class CmdParam {
-    @Option(name="-t", aliases="--threads", usage="number of threads")
-    private int threadCount = 1;
+    @Option(name="-c", aliases="--clients", usage="number of clients")
+    private int clientCount = 1;
     @Option(name="-h", aliases="--host", usage="target host")
     private String host = "";
     @Option(name="-d", aliases="--duration", usage="duration (sec)")
@@ -23,8 +23,8 @@ public class CmdParam {
     @Argument(required=true, index=1, usage="type of target (rabbitmq / zookeeper)")
     private TargetType targetType;
 
-    public int getThreadCount() {
-        return threadCount;
+    public int getClientCount() {
+        return clientCount;
     }
 
     public String getHost() {

@@ -15,8 +15,31 @@ public class Main {
             System.exit(1);
         }
 
-        OperationFactory factory = OperationFactory.getFactory(param.getTargetType(), param.getOperationType(), param.getHost());
-        Benchmark benchmark = new Benchmark(param.getThreadCount(), param.getDuration(), param.getInterval(), factory);
+        OperationFactory readerFactory = null;
+        OperationFactory writerFactory = null;
+        int readerCount = 0;
+        int writerCount = 0;
+        switch (param.getOperationType()) {
+            case Read:
+                readerFactory = OperationFactory.getFactory(param.getTargetType(), param.getOperationType(), param.getHost());
+                readerCount = param.getClientCount();
+                break;
+            case Write:
+                writerFactory = OperationFactory.getFactory(param.getTargetType(), param.getOperationType(), param.getHost());
+                writerCount = param.getClientCount();
+                break;
+            case Dual:
+                readerFactory = OperationFactory.getFactory(param.getTargetType(), OperationType.Read, param.getHost());
+                writerFactory = OperationFactory.getFactory(param.getTargetType(), OperationType.Write, param.getHost());
+                readerCount = param.getClientCount();
+                writerCount = param.getClientCount();
+                break;
+            default:
+                System.out.println(param.getOperationType() + " is not supported operation");
+                System.exit(1);
+        }
+        Benchmark benchmark = new Benchmark(param.getDuration(), param.getInterval(),
+                readerFactory, readerCount, writerFactory, writerCount);
 
         benchmark.start();
         benchmark.stop();
