@@ -33,7 +33,7 @@ public class Benchmark {
 
         this.service = Executors.newFixedThreadPool(threadCount);
         this.timer = Executors.newSingleThreadScheduledExecutor();
-        this.latch = new CountDownLatch(threadCount);
+        this.latch = new CountDownLatch(threadCount + 1);
 
         this.readOperations = new ArrayList<Operation>(readerCount);
         this.writeOperations = new ArrayList<Operation>(writerCount);
@@ -49,6 +49,7 @@ public class Benchmark {
         createOperations(writerCount, writeFactory, writeOperations, writeSnapshots);
 
         try {
+            latch.countDown();
             latch.await();
 
             timer.scheduleAtFixedRate(new Runnable() {
