@@ -18,6 +18,8 @@ public class CmdParam {
     private long duration = 30;
     @Option(name="-i", aliases="--interval", usage="report interval (sec)")
     private int interval = 1;
+    @Option(name="-t", aliases="--target", usage="target of queue")
+    private String target = "";
     @Argument(required=true, index=0, usage="type of operation (read / write)")
     private OperationType operationType;
     @Argument(required=true, index=1, usage="type of target (rabbitmq / zookeeper)")
@@ -52,6 +54,25 @@ public class CmdParam {
 
     public int getInterval() {
         return interval;
+    }
+
+    public String getTarget() {
+        if (!target.isEmpty()) {
+            return target;
+        }
+
+        switch (targetType) {
+            case Zookeeper:
+                return "/bench";
+            case ZKQueue:
+                return "/bench";
+            case RabbitMQ:
+                return "bench";
+            case NOP:
+                return target;
+            default:
+                return host;
+        }
     }
 
     public OperationType getOperationType() {

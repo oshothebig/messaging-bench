@@ -21,16 +21,16 @@ public class Main {
         int writerCount = 0;
         switch (param.getOperationType()) {
             case Read:
-                readerFactory = OperationFactory.getFactory(param.getTargetType(), param.getOperationType(), param.getHost());
+                readerFactory = OperationFactory.getFactory(param.getTargetType(), param.getOperationType(), param.getHost(), param.getTarget());
                 readerCount = param.getClientCount();
                 break;
             case Write:
-                writerFactory = OperationFactory.getFactory(param.getTargetType(), param.getOperationType(), param.getHost());
+                writerFactory = OperationFactory.getFactory(param.getTargetType(), param.getOperationType(), param.getHost(), param.getTarget());
                 writerCount = param.getClientCount();
                 break;
             case Dual:
-                readerFactory = OperationFactory.getFactory(param.getTargetType(), OperationType.Read, param.getHost());
-                writerFactory = OperationFactory.getFactory(param.getTargetType(), OperationType.Write, param.getHost());
+                readerFactory = OperationFactory.getFactory(param.getTargetType(), OperationType.Read, param.getHost(), param.getTarget());
+                writerFactory = OperationFactory.getFactory(param.getTargetType(), OperationType.Write, param.getHost(), param.getTarget());
                 readerCount = param.getClientCount();
                 writerCount = param.getClientCount();
                 break;

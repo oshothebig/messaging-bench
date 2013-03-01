@@ -5,17 +5,17 @@ import org.galibier.messaging.benchmark.OperationFactory;
 import org.galibier.messaging.benchmark.OperationType;
 
 public class RabbiMQOperationFactory extends OperationFactory {
-    public RabbiMQOperationFactory(OperationType type, String host) {
-        super(type, host);
+    public RabbiMQOperationFactory(OperationType type, String host, String queue) {
+        super(type, host, queue);
     }
 
     @Override
     public Operation create() {
         switch (type) {
             case Read:
-                return new RabbitMQRead(host, "bench");
+                return new RabbitMQRead(host, queue);
             case Write:
-                return new RabbitMQWrite(host, "bench");
+                return new RabbitMQWrite(host, queue);
             default:
                 throw new IllegalStateException("Non supported operation type:" + type);
         }
