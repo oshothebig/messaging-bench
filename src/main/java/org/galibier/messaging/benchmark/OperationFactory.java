@@ -5,6 +5,8 @@ import org.galibier.messaging.benchmark.rabbitmq.RabbiMQOperationFactory;
 import org.galibier.messaging.benchmark.zookeeper.ZKOperationFactory;
 import org.galibier.messaging.benchmark.zookeeper.ZKQueueOperationFactory;
 
+import java.util.List;
+
 public abstract class OperationFactory {
     protected final OperationType type;
     protected final String host;
@@ -20,16 +22,16 @@ public abstract class OperationFactory {
         this.queue = queue;
     }
 
-    public static OperationFactory getFactory(TargetType target, OperationType operation, String host, String queue) {
+    public static OperationFactory getFactory(TargetType target, OperationType operation, List<String> hosts, String queue) {
         switch (target) {
             case Zookeeper:
-                return new ZKOperationFactory(operation, host, queue);
+                return new ZKOperationFactory(operation, hosts.get(0), queue);
             case ZKQueue:
-                return new ZKQueueOperationFactory(operation, host, queue);
+                return new ZKQueueOperationFactory(operation, hosts.get(0), queue);
             case RabbitMQ:
-                return new RabbiMQOperationFactory(operation, host, queue);
+                return new RabbiMQOperationFactory(operation, hosts, queue);
             case NOP:
-                return new NoOperationFactory(operation, host, queue);
+                return new NoOperationFactory(operation, hosts.get(0), queue);
             default:
                 break;
         }

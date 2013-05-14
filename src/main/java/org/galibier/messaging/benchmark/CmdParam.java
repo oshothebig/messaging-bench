@@ -8,12 +8,16 @@ package org.galibier.messaging.benchmark;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class CmdParam {
     @Option(name="-c", aliases="--clients", usage="number of clients")
     private int clientCount = 1;
-    @Option(name="-h", aliases="--host", usage="target host")
-    private String host = "";
+    @Option(name="-h", aliases="--hosts", handler=StringArrayOptionHandler.class, usage="target host(s)")
+    private String[] servers = null;
     @Option(name="-d", aliases="--duration", usage="duration (sec)")
     private long duration = 30;
     @Option(name="-i", aliases="--interval", usage="report interval (sec)")
@@ -29,11 +33,7 @@ public class CmdParam {
         return clientCount;
     }
 
-    public String getHost() {
-        if (!host.isEmpty()) {
-            return host;
-        }
-
+    private String getDefaultHost(TargetType targetType) {
         switch (targetType) {
             case Zookeeper:
                 return "localhost:2181";
@@ -42,9 +42,17 @@ public class CmdParam {
             case RabbitMQ:
                 return "localhost:5672";
             case NOP:
-                return host;
+                return "";
             default:
-                return host;
+                return "";
+        }
+    }
+
+    public List<String> getHosts() {
+        if (servers == null) {
+            return Arrays.asList(getDefaultHost(targetType));
+        } else {
+            return Arrays.asList(servers);
         }
     }
 
@@ -69,9 +77,9 @@ public class CmdParam {
             case RabbitMQ:
                 return "bench";
             case NOP:
-                return target;
+                return "";
             default:
-                return host;
+                return "";
         }
     }
 
